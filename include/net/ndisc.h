@@ -40,6 +40,7 @@ enum {
 	ND_OPT_6CO = 34,		/* RFC6775 */
 	ND_OPT_PREF64 = 38,		/* RFC-ietf-6man-ra-pref64-09 */
 	ND_OPT_CAPTIVE_PORTAL = 37,	/* RFC7710 */
+	ND_OPT_PREF64 = 38,		/* RFC-ietf-6man-ra-pref64-09 */
 	__ND_OPT_MAX
 };
 
