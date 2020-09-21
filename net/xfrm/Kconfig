@@ -32,6 +32,16 @@ config XFRM_INTERFACE
 	depends on XFRM && IPV6
 	---help---
 	  This provides a virtual interface to route IPsec traffic.
+	  
+	  If unsure, say N.
+
+config XFRM_USER_COMPAT
+	tristate "Compatible ABI support"
+	depends on XFRM_USER && COMPAT_FOR_U64_ALIGNMENT
+	select WANT_COMPAT_NETLINK_MESSAGES
+	help
+	  Transformation(XFRM) user configuration interface like IPsec
+	  used by compatible Linux applications.
 
 	  If unsure, say N.
 
