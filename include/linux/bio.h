@@ -135,6 +135,7 @@ static inline void *bio_has_crypt(struct bio *bio)
 		return bio->bi_aux_private;
 
 	return NULL;
+}
 
 static inline bool bio_full(struct bio *bio)
 {
