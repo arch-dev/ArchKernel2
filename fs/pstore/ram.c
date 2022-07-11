@@ -873,6 +873,7 @@ static int ramoops_probe(struct platform_device *pdev)
 			goto fail_clear;
 		}
 	}
+	spin_lock_init(&cxt->pstore.buf_lock);
 
 	err = pstore_register(&cxt->pstore);
 	if (err) {
