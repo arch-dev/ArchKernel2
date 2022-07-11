@@ -431,7 +431,6 @@ static int pstore_decompress(void *in, void *out, size_t inlen, size_t outlen)
 		return -EIO;
 }
 
-#if 0
 static void allocate_buf_for_compression(void)
 {
 	if (zbackend) {
@@ -441,7 +440,6 @@ static void allocate_buf_for_compression(void)
 		pr_err("allocate compression buffer error!\n");
 	}
 }
-#endif
 
 static void free_buf_for_compression(void)
 {
