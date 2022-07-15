@@ -1954,9 +1954,9 @@ static int s3c24xx_serial_resume_noirq(struct device *dev)
 				uintm &= ~S3C64XX_UINTM_TXD_MSK;
 			if (rx_enabled(port))
 				uintm &= ~S3C64XX_UINTM_RXD_MSK;
-			uart_clock_enable(ourport);
+			uart_clock_enable(ourport);	// clk_prepare_enable(ourport->clk)
 			wr_regl(port, S3C64XX_UINTM, uintm);
-			uart_clock_disable(ourport);
+			uart_clock_disable(ourport);	// clk_disable_unprepare(ourport->clk)
 		}
 	}
 
