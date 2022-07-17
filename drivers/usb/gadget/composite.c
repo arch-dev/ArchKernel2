@@ -447,7 +447,7 @@ static u8 encode_bMaxPower(enum usb_device_speed speed,
 
 	if (speed < USB_SPEED_SUPER) {
 		return DIV_ROUND_UP(val, HSUSB_GADGET_VBUS_DRAW_UNITS);
-	} else
+	} else {
 		/* with super-speed report 900mA */
 		val = SSUSB_GADGET_VBUS_DRAW;
 		return (u8)(val / SSUSB_GADGET_VBUS_DRAW_UNITS);
