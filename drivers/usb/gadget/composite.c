@@ -493,8 +493,14 @@ EXPORT_SYMBOL_GPL(usb_interface_id);
 static u8 encode_bMaxPower(enum usb_device_speed speed,
 		struct usb_configuration *c)
 {
-	unsigned int val = CONFIG_USB_GADGET_VBUS_DRAW;
-
+	unsigned val;
+	
+	if ((c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+		val = c->MaxPower;
+	else
+		val = CONFIG_USB_GADGET_VBUS_DRAW;
+	if (!val)
+		return 0;
 	if (speed < USB_SPEED_SUPER) {
 		return DIV_ROUND_UP(val, HSUSB_GADGET_VBUS_DRAW_UNITS);
 	} else {
@@ -898,7 +904,11 @@ static int set_config(struct usb_composite_dev *cdev,
 	}
 
 	/* when we return, be sure our power usage is valid */
-	power = c->MaxPower ? c->MaxPower : CONFIG_USB_GADGET_VBUS_DRAW;
+	if (c->MaxPower || (c->bmAttributes & USB_CONFIG_ATT_SELFPOWER))
+		power = c->MaxPower;
+	else
+		power = CONFIG_USB_GADGET_VBUS_DRAW;
+
 	if (gadget->speed < USB_SPEED_SUPER)
 		power = min(power, 500U);
 	else
