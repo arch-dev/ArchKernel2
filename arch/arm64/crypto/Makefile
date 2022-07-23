@@ -79,8 +79,4 @@ $(src)/sha512-core.S_shipped: $(src)/sha512-armv8.pl
 	$(call cmd,perlasm)
 endif
 
-<<<<<<< HEAD
-.PRECIOUS: $(obj)/sha256-core.S $(obj)/sha512-core.S
-=======
-targets += poly1305-core.S sha256-core.S sha512-core.S
->>>>>>> 36a372fd77a1 (UPSTREAM: crypto: arm64/poly1305 - incorporate OpenSSL/CRYPTOGAMS NEON implementation)
+.PRECIOUS: $(obj)/poly1305-core.S $(obj)/sha256-core.S $(obj)/sha512-core.S
