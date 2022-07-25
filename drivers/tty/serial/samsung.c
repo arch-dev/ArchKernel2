@@ -435,6 +435,55 @@ static int s3c24xx_serial_tx_fifocnt(struct s3c24xx_uart_port *ourport,
 static irqreturn_t
 s3c24xx_serial_rx_chars(int irq, void *dev_id)
 {
+<<<<<<< HEAD
+=======
+	struct uart_port *port = &ourport->port;
+	unsigned int ucon;
+
+	/* set Rx mode to DMA mode */
+	ucon = rd_regl(port, S3C2410_UCON);
+	ucon &= ~(S3C64XX_UCON_RXBURST_MASK |
+			S3C64XX_UCON_TIMEOUT_MASK |
+			S3C64XX_UCON_EMPTYINT_EN |
+			S3C64XX_UCON_DMASUS_EN |
+			S3C64XX_UCON_TIMEOUT_EN |
+			S3C64XX_UCON_RXMODE_MASK);
+	ucon |= S3C64XX_UCON_RXBURST_1 |
+			0xf << S3C64XX_UCON_TIMEOUT_SHIFT |
+			S3C64XX_UCON_EMPTYINT_EN |
+			S3C64XX_UCON_TIMEOUT_EN |
+			S3C64XX_UCON_RXMODE_DMA;
+	wr_regl(port, S3C2410_UCON, ucon);
+
+	ourport->rx_mode = S3C24XX_RX_DMA;
+}
+
+static void enable_rx_pio(struct s3c24xx_uart_port *ourport)
+{
+	struct uart_port *port = &ourport->port;
+	unsigned int ucon;
+
+	/* set Rx mode to DMA mode */
+	ucon = rd_regl(port, S3C2410_UCON);
+	ucon &= ~(S3C64XX_UCON_TIMEOUT_MASK |
+			S3C64XX_UCON_EMPTYINT_EN |
+			S3C64XX_UCON_DMASUS_EN |
+			S3C64XX_UCON_TIMEOUT_EN |
+			S3C64XX_UCON_RXMODE_MASK);
+	ucon |= 0xf << S3C64XX_UCON_TIMEOUT_SHIFT |
+			S3C64XX_UCON_TIMEOUT_EN |
+			S3C64XX_UCON_RXMODE_CPU;
+	wr_regl(port, S3C2410_UCON, ucon);
+
+	ourport->rx_mode = S3C24XX_RX_PIO;
+}
+
+static void s3c24xx_serial_rx_drain_fifo(struct s3c24xx_uart_port *ourport);
+
+static irqreturn_t s3c24xx_serial_rx_chars_dma(void *dev_id)
+{
+	unsigned int utrstat, ufstat, received;
+>>>>>>> v4.14.289
 	struct s3c24xx_uart_port *ourport = dev_id;
 	struct uart_port *port = &ourport->port;
 	unsigned int ufcon, ch, flag, ufstat, uerstat;
