@@ -219,13 +219,13 @@ void wg_timers_any_authenticated_packet_traversal(struct wg_peer *peer)
 void wg_timers_init(struct wg_peer *peer)
 {
 	setup_timer(&peer->timer_retransmit_handshake,
-		    wg_expired_retransmit_handshake, (unsigned long)peer);
-	setup_timer(&peer->timer_send_keepalive, wg_expired_send_keepalive, (unsigned long)peer);
-	setup_timer(&peer->timer_new_handshake, wg_expired_new_handshake, (unsigned long)peer);
+		    wg_expired_retransmit_handshake, (unsigned long)&peer->timer_retransmit_handshake);
+	setup_timer(&peer->timer_send_keepalive, wg_expired_send_keepalive, (unsigned long)&peer->timer_send_keepalive);
+	setup_timer(&peer->timer_new_handshake, wg_expired_new_handshake, (unsigned long)&peer->timer_new_handshake);
 	setup_timer(&peer->timer_zero_key_material,
-		    wg_expired_zero_key_material, (unsigned long)peer);
+		    wg_expired_zero_key_material, (unsigned long)&peer->timer_zero_key_material);
 	setup_timer(&peer->timer_persistent_keepalive,
-		    wg_expired_send_persistent_keepalive, (unsigned long)peer);
+		    wg_expired_send_persistent_keepalive, (unsigned long)&peer->timer_persistent_keepalive);
 	INIT_WORK(&peer->clear_peer_work, wg_queued_expired_zero_key_material);
 	peer->timer_handshake_attempts = 0;
 	peer->sent_lastminute_handshake = false;
